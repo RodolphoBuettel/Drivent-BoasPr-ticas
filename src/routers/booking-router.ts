@@ -1,4 +1,4 @@
-import { getBooking, postBooking, uptadeBooking } from "@/controllers/booking-controller";
+import { getBooking, postBooking, updateBooking } from "@/controllers/booking-controller";
 import { authenticateToken } from "@/middlewares";
 import { Router } from "express";
 
@@ -8,6 +8,6 @@ bookingRouter
   .all("/*", authenticateToken)
   .get("/", getBooking)
   .post("/", postBooking)
-  .put("/:bookingId", uptadeBooking);
+  .put("/:bookingId", updateBooking);
 
 export { bookingRouter };

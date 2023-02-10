@@ -23,8 +23,6 @@ export async function postBooking(req: AuthenticatedRequest, res: Response) {
 
   try{
     const createBooking = await bookingService.postBooking(Number(userId), Number(roomId));
-    // eslint-disable-next-line no-console
-    console.log(createBooking);
     return res.status(httpStatus.OK).send(createBooking);
   }catch(error) {
     if(error.name === "NotFoundError") {
@@ -33,23 +31,24 @@ export async function postBooking(req: AuthenticatedRequest, res: Response) {
     if(error.name === "forbiddenError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
-    // eslint-disable-next-line no-console
-    console.log(error);
-    return res.sendStatus(httpStatus.BAD_REQUEST);
+    return res.sendStatus(httpStatus.FORBIDDEN);
   }
 }
 
-export async function uptadeBooking(req: AuthenticatedRequest, res: Response) {
+export async function updateBooking(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const { roomId } = req.body;
   const { bookingId } = req.params;
 
   try{
-    const uptadeBooking = await bookingService.uptadeBooking(Number(userId), Number(roomId), Number(bookingId));
-    return res.status(httpStatus.OK).send(uptadeBooking.id);
+    const updateBooking = await bookingService.updateBooking(Number(userId), Number(roomId), Number(bookingId));
+    return res.status(httpStatus.OK).send(updateBooking);
   }catch(error) {
     if(error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    if(error.name === "forbiddenError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
     }
     return res.sendStatus(httpStatus.FORBIDDEN);
   }
